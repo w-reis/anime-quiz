@@ -1,13 +1,15 @@
-import Head from 'next/head'
+import React from 'react';
 
-import Widget from '../src/components/Widget'
-import QuizLogo from '../src/components/QuizLogo'
-import QuizBackground from '../src/components/QuizBackground'
-import Footer from '../src/components/Footer'
-import GitHubCorner from '../src/components/GitHubCorner'
+import Head from 'next/head';
+
+import styled from 'styled-components';
+import Widget from '../src/components/Widget';
+import QuizLogo from '../src/components/QuizLogo';
+import QuizBackground from '../src/components/QuizBackground';
+import Footer from '../src/components/Footer';
+import GitHubCorner from '../src/components/GitHubCorner';
 
 import db from '../db.json';
-import styled from 'styled-components'
 
 export const QuizContainer = styled.div`
   width: 100%;
@@ -27,7 +29,7 @@ export default function Home() {
         <title>Anime Quiz - Quiz da Alura</title>
       </Head>
       <QuizContainer>
-        <QuizLogo/>
+        <QuizLogo />
         <Widget>
           <Widget.Header>
             <h1>{db.title}</h1>

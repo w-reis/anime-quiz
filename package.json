@@ -4,7 +4,9 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "eslint:init": "eslint --init",
+    "lint": "eslint ./ --fix"
   },
   "dependencies": {
     "eslint-config-airbnb": "^18.2.1",
@@ -13,6 +15,7 @@
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4",
     "next": "latest",
+    "prop-types": "^15.7.2",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-is": "^16.8.0",

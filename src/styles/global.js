@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import db from '../../db.json';
@@ -24,13 +26,14 @@ export const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
   }
-`
-const theme = db.theme;
+`;
+const { theme } = db;
 
-export function Theme({children}){
+// eslint-disable-next-line react/prop-types
+export function Theme({ children }) {
   return (
     <ThemeProvider theme={theme}>
       {children}
     </ThemeProvider>
-  );  
+  );
 }
