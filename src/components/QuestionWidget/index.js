@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import Widget from '../Widget';
 import QuizButton from '../QuizButton';
+import AlternativesForm from '../AlternativesForm';
 
 function QuestionWidget({
   question,
@@ -41,27 +42,32 @@ function QuestionWidget({
           {question.description}
         </p>
 
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          setIsQuestionSubmited(true);
-          setTimeout(() => {
-            addResult(isCorrect);
-            onSubmit();
-            setIsQuestionSubmited(false);
-            setSelectedAlternative(undefined);
-          }, 3 * 1000);
-        }}
+        <AlternativesForm
+          onSubmit={(e) => {
+            e.preventDefault();
+            setIsQuestionSubmited(true);
+            setTimeout(() => {
+              addResult(isCorrect);
+              onSubmit();
+              setIsQuestionSubmited(false);
+              setSelectedAlternative(undefined);
+            }, 3 * 1000);
+          }}
         >
           {question.alternatives.map((
             alternative,
             alternativeIndex,
           ) => {
             const alternativeId = `alternative_${alternativeIndex}`;
+            const alternativeStatus = isCorrect ? 'SUCCESS' : 'ERROR';
+            const isSelected = selectedAlternative === alternativeIndex;
             return (
               <Widget.Topic
                 as="label"
                 htmlFor={alternativeId}
                 key={alternativeId}
+                data-selected={isSelected}
+                data-status={isQuestionSubmited && alternativeStatus}
               >
                 <input
                   id={alternativeId}
@@ -81,10 +87,10 @@ function QuestionWidget({
             Confirmar
           </QuizButton>
 
-        </form>
+          {isQuestionSubmited && isCorrect && <p>Você acertou!</p>}
+          {isQuestionSubmited && !isCorrect && <p>Você errou!</p>}
 
-        {isQuestionSubmited && isCorrect && <p>Você acertou!</p>}
-        {isQuestionSubmited && !isCorrect && <p>Você errou!</p>}
+        </AlternativesForm>
       </Widget.Content>
     </Widget>
   );
