@@ -8,6 +8,7 @@ function QuestionWidget({
   question,
   totalQuestions,
   questionIndex,
+  onSubmit,
 }) {
   const questionId = `question_${questionIndex}`;
   return (
@@ -34,7 +35,11 @@ function QuestionWidget({
           {question.description}
         </p>
 
-        <form>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit();
+        }}
+        >
           {question.alternatives.map((
             alternative,
             alternativeIndex,
@@ -44,11 +49,13 @@ function QuestionWidget({
               <Widget.Topic
                 as="label"
                 htmlFor={alternativeId}
+                key={alternativeId}
               >
                 <input
                   id={alternativeId}
                   type="radio"
                   name={questionId}
+                  style={{ display: 'none' }}
                 />
                 {alternative}
               </Widget.Topic>
