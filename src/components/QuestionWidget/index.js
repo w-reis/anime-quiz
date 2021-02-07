@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
 
 import Widget from '../Widget';
 import QuizButton from '../QuizButton';
@@ -9,8 +9,14 @@ function QuestionWidget({
   totalQuestions,
   questionIndex,
   onSubmit,
+  addResult,
 }) {
+  const [selectedAlternative, setSelectedAlternative] = useState(undefined);
+  const [isQuestionSubmited, setIsQuestionSubmited] = useState(false);
   const questionId = `question_${questionIndex}`;
+  const isCorrect = selectedAlternative === question.answer;
+  const hasAlternativeSelected = selectedAlternative !== undefined;
+
   return (
     <Widget>
       <Widget.Header>
@@ -37,7 +43,13 @@ function QuestionWidget({
 
         <form onSubmit={(e) => {
           e.preventDefault();
-          onSubmit();
+          setIsQuestionSubmited(true);
+          setTimeout(() => {
+            addResult(isCorrect);
+            onSubmit();
+            setIsQuestionSubmited(false);
+            setSelectedAlternative(undefined);
+          }, 3 * 1000);
         }}
         >
           {question.alternatives.map((
@@ -56,16 +68,23 @@ function QuestionWidget({
                   type="radio"
                   name={questionId}
                   style={{ display: 'none' }}
+                  onChange={() => {
+                    setSelectedAlternative(alternativeIndex);
+                  }}
                 />
                 {alternative}
               </Widget.Topic>
             );
           })}
+
+          <QuizButton type="submit" disabled={!hasAlternativeSelected}>
+            Confirmar
+          </QuizButton>
+
         </form>
 
-        <QuizButton>
-          Confirm
-        </QuizButton>
+        {isQuestionSubmited && isCorrect && <p>Você acertou!</p>}
+        {isQuestionSubmited && !isCorrect && <p>Você errou!</p>}
       </Widget.Content>
     </Widget>
   );
